@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Environment variables and local configuration
+.env
+.env.*
+!.env.example
+
+# Local application data
+instance/*
+!instance/.gitkeep
+database/*.db
+uploads/*
+!uploads/.gitignore
+!uploads/.gitkeep
+
+# Logs
+*.log

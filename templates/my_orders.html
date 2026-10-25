@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}My Orders - BorrowBay{% endblock %}
+
+{% block content %}
+
+<section class="container">
+
+    <h1>My Orders</h1>
+
+    {% for order in orders %}
+
+    <div class="order-card">
+
+        <h3>
+            {{ order.product.name }}
+        </h3>
+
+        <p>
+            Type:
+            {{ order.order_type }}
+        </p>
+
+        <p>
+            Price:
+            ₹{{ "%.2f"|format(order.price) }}
+        </p>
+
+        <p>
+            Seller:
+            {{ order.seller.name }}
+        </p>
+
+        <p>
+            Status:
+            <strong>
+                {{ order.status }}
+            </strong>
+        </p>
+
+    </div>
+
+    {% else %}
+
+    <p>
+        You don't have any orders yet.
+    </p>
+
+    {% endfor %}
+
+</section>
+
+{% endblock %}

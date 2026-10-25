@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ product.name }} - BorrowBay
+{% endblock %}
+
+{% block content %}
+
+<div class="product-detail">
+
+    <div>
+
+        {% if product.image %}
+
+        <img
+            src="{{ url_for(
+                'static',
+                filename='../uploads/' + product.image
+            ) }}"
+            class="detail-image"
+        >
+
+        {% else %}
+
+        <div class="no-image large">
+            No Image
+        </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <div>
+
+        <h1>
+            {{ product.name }}
+        </h1>
+
+        <h2>
+            ₹{{ "%.2f"|format(product.price) }}
+        </h2>
+
+        <p>
+            {{ product.description }}
+        </p>
+
+        <p>
+            <strong>Category:</strong>
+            {{ product.category }}
+        </p>
+
+        <p>
+            <strong>Condition:</strong>
+            {{ product.condition }}
+        </p>
+
+        <p>
+            <strong>Seller:</strong>
+            {{ product.seller.name }}
+        </p>
+
+
+        {% if current_user.is_authenticated %}
+
+            {% if current_user.id != product.seller_id
+                  and product.status == "available" %}
+
+            <form
+                method="POST"
+                action="{{ url_for(
+                    'orders.buy_product',
+                    product_id=product.id
+                ) }}"
+            >
+
+                <select name="order_type">
+
+                    <option value="Buy">
+                        Buy
+                    </option>
+
+                    <option value="Borrow">
+                        Borrow
+                    </option>
+
+                </select>
+
+                <button class="btn"
+                        type="submit">
+
+                    Buy / Borrow
+
+                </button>
+
+            </form>
+
+            {% elif current_user.id == product.seller_id %}
+
+            <p>
+                This is your product.
+            </p>
+
+            {% endif %}
+
+        {% else %}
+
+        <a
+            href="{{ url_for('auth.login') }}"
+            class="btn"
+        >
+
+            Login to Buy
+
+        </a>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

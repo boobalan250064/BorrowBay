@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}Products - BorrowBay{% endblock %}
+
+{% block content %}
+
+<section class="container">
+
+    <h1>Browse Products</h1>
+
+    <form method="GET"
+          class="search-form">
+
+        <input
+            type="text"
+            name="search"
+            value="{{ search }}"
+            placeholder="Search products..."
+        >
+
+        <button class="btn">
+            Search
+        </button>
+
+    </form>
+
+
+    <div class="product-grid">
+
+        {% for product in products %}
+
+        <div class="product-card">
+
+            {% if product.image %}
+
+            <img src="{{ url_for(
+                'static',
+                filename='../uploads/' + product.image
+            ) }}">
+
+            {% else %}
+
+            <div class="no-image">
+                No Image
+            </div>
+
+            {% endif %}
+
+            <h3>
+                {{ product.name }}
+            </h3>
+
+            <p>
+                ₹{{ "%.2f"|format(product.price) }}
+            </p>
+
+            <p>
+                {{ product.condition }}
+            </p>
+
+            <a
+                href="{{ url_for(
+                    'products.product_details',
+                    product_id=product.id
+                ) }}"
+                class="btn"
+            >
+
+                View
+
+            </a>
+
+        </div>
+
+        {% else %}
+
+        <p>
+            No products found.
+        </p>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endblock %}

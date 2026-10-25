@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sell Product - BorrowBay</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <h1>Sell Your Product</h1>
+
+    <form method="POST"
+          action="{{ url_for('products.add_product') }}">
+
+        <label>Product Name</label>
+        <input type="text" name="name" required>
+
+        <br><br>
+
+        <label>Description</label>
+        <textarea name="description" required></textarea>
+
+        <br><br>
+
+        <label>Category</label>
+        <input type="text" name="category" required>
+
+        <br><br>
+
+        <label>Price</label>
+        <input type="number" name="price" step="0.01" required>
+
+        <br><br>
+
+        <label>Condition</label>
+        <input type="text" name="condition" required>
+
+        <br><br>
+
+        <button type="submit">
+            Add Product
+        </button>
+
+    </form>
+
+</body>
+
+</html>

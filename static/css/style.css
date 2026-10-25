@@ -1,0 +1,415 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f5faff;
+    color: #142f63;
+}
+
+
+/* =========================
+   TOP HEADER
+   ========================= */
+
+.top-header {
+    height: 90px;
+    background: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 75px;
+
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+}
+
+
+/* LOGO */
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.brand-bag {
+    width: 48px;
+    height: 48px;
+
+    background: #1677ff;
+    color: white;
+
+    border-radius: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 28px;
+    font-weight: bold;
+
+    box-shadow: 0 5px 12px rgba(22, 119, 255, 0.25);
+}
+
+.brand-text {
+    font-size: 32px;
+    font-weight: bold;
+    color: #142f63;
+}
+
+.brand-text span {
+    color: #1677ff;
+}
+
+
+/* ACCOUNT */
+
+.account {
+    text-decoration: none;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    color: #173b72;
+
+    font-size: 17px;
+}
+
+.account-icon {
+    width: 36px;
+    height: 36px;
+
+    border-radius: 50%;
+
+    background: #1677ff;
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 18px;
+}
+
+.arrow-down {
+    font-size: 22px;
+}
+
+
+/* =========================
+   MAIN PAGE
+   ========================= */
+
+.role-page {
+    min-height: calc(100vh - 90px);
+
+    padding-top: 65px;
+    padding-bottom: 70px;
+
+    text-align: center;
+
+    background:
+
+        radial-gradient(
+            circle at 0% 0%,
+            #dceeff 0,
+            #dceeff 145px,
+            transparent 146px
+        ),
+
+        radial-gradient(
+            circle at 100% 100%,
+            #dceeff 0,
+            #dceeff 150px,
+            transparent 151px
+        ),
+
+        #f5faff;
+}
+
+
+/* MAIN BORROWBAY TITLE */
+
+.borrowbay-title {
+    font-size: 76px;
+
+    font-weight: 700;
+
+    letter-spacing: -3px;
+
+    color: #142f63;
+}
+
+.borrowbay-title span {
+    color: #1677ff;
+}
+
+
+/* TAGLINE */
+
+.tagline {
+    margin-top: 10px;
+    margin-bottom: 50px;
+
+    font-size: 26px;
+
+    color: #6d6d6d;
+}
+
+.tagline span {
+    margin: 0 13px;
+}
+
+
+/* =========================
+   SELLER / BUYER CONTAINER
+   ========================= */
+
+.role-container {
+    width: 1100px;
+    max-width: 90%;
+
+    margin: auto;
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 55px;
+}
+
+
+/* CARD */
+
+.role-card {
+    width: 520px;
+    min-height: 500px;
+
+    background: white;
+
+    border-radius: 20px;
+
+    padding: 35px 55px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-decoration: none;
+
+    box-shadow:
+        0 12px 30px rgba(40, 100, 170, 0.12);
+
+    transition: 0.3s ease;
+}
+
+
+/* CARD HOVER */
+
+.role-card:hover {
+    transform: translateY(-8px);
+
+    box-shadow:
+        0 20px 40px rgba(40, 100, 170, 0.18);
+}
+
+
+/* =========================
+   ICONS
+   ========================= */
+
+.role-icon {
+    width: 135px;
+    height: 135px;
+
+    border-radius: 50%;
+
+    background: #e8f3ff;
+
+    margin-bottom: 28px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    color: #1677ff;
+
+    font-size: 60px;
+
+    font-weight: bold;
+}
+
+
+/* Seller icon */
+
+.seller-icon {
+    position: relative;
+}
+
+
+/* Buyer icon */
+
+.buyer-icon {
+    font-size: 55px;
+}
+
+
+/* =========================
+   CARD TEXT
+   ========================= */
+
+.role-card h2 {
+    font-size: 36px;
+
+    color: #142f63;
+
+    margin-bottom: 18px;
+
+    letter-spacing: 1px;
+}
+
+.role-card p {
+    max-width: 360px;
+
+    font-size: 19px;
+
+    line-height: 1.5;
+
+    color: #606060;
+
+    margin-bottom: 32px;
+}
+
+
+/* =========================
+   BLUE BUTTON
+   ========================= */
+
+.role-button {
+    width: 100%;
+    max-width: 370px;
+
+    padding: 17px 25px;
+
+    background: #1677ff;
+
+    color: white;
+
+    border-radius: 13px;
+
+    text-decoration: none;
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 14px;
+
+    box-shadow:
+        0 7px 15px rgba(22, 119, 255, 0.25);
+
+    transition: 0.25s;
+}
+
+.role-button:hover {
+    background: #0869ed;
+
+    transform: scale(1.02);
+}
+
+.role-button span {
+    font-size: 25px;
+}
+
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 950px) {
+
+    .top-header {
+        padding: 0 30px;
+    }
+
+    .role-container {
+        flex-direction: column;
+
+        align-items: center;
+
+        width: 100%;
+    }
+
+    .role-card {
+        width: 90%;
+        max-width: 520px;
+    }
+
+    .borrowbay-title {
+        font-size: 55px;
+    }
+
+    .tagline {
+        font-size: 21px;
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    .top-header {
+        height: 75px;
+        padding: 0 18px;
+    }
+
+    .brand-text {
+        font-size: 24px;
+    }
+
+    .brand-bag {
+        width: 40px;
+        height: 40px;
+    }
+
+    .account {
+        font-size: 14px;
+    }
+
+    .role-page {
+        padding-top: 45px;
+    }
+
+    .borrowbay-title {
+        font-size: 45px;
+    }
+
+    .role-card {
+        min-height: 450px;
+        padding: 30px 25px;
+    }
+
+    .role-card h2 {
+        font-size: 30px;
+    }
+
+    .role-card p {
+        font-size: 17px;
+    }
+}
