@@ -1,87 +1,379 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block title %}Products - BorrowBay{% endblock %}
+<head>
 
-{% block content %}
+    <meta charset="UTF-8">
 
-<section class="container">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <h1>Browse Products</h1>
+    <title>BorrowBay - Products</title>
 
-    <form method="GET"
-          class="search-form">
+    <style>
 
-        <input
-            type="text"
-            name="search"
-            value="{{ search }}"
-            placeholder="Search products..."
-        >
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-        <button class="btn">
-            Search
-        </button>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
 
-    </form>
+            background:
+                radial-gradient(
+                    circle at 0% 0%,
+                    #dceeff 0,
+                    #dceeff 150px,
+                    transparent 151px
+                ),
+                #f5faff;
+
+            color: #142f63;
+
+            min-height: 100vh;
+        }
+
+        .top-header {
+            height: 90px;
+
+            background: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 75px;
+
+            box-shadow:
+                0 2px 10px
+                rgba(0,0,0,0.04);
+        }
+
+        .brand {
+            font-size: 32px;
+
+            font-weight: bold;
+        }
+
+        .brand span {
+            color: #1677ff;
+        }
+
+        .back {
+            color: #1677ff;
+
+            text-decoration: none;
+
+            font-weight: bold;
+        }
+
+        .page {
+            padding: 50px 7%;
+        }
+
+        .title {
+            text-align: center;
+
+            font-size: 42px;
+
+            margin-bottom: 10px;
+        }
+
+        .title span {
+            color: #1677ff;
+        }
+
+        .subtitle {
+            text-align: center;
+
+            color: #666;
+
+            margin-bottom: 40px;
+        }
+
+        .products {
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(280px, 1fr));
+
+            gap: 30px;
+        }
+
+        .product-card {
+            background: white;
+
+            border-radius: 18px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 12px 30px
+                rgba(40,100,170,0.12);
+
+            transition: 0.25s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-6px);
+        }
+
+        .product-image {
+            width: 100%;
+
+            height: 230px;
+
+            object-fit: cover;
+
+            background: #e8f3ff;
+        }
+
+        .no-image {
+            width: 100%;
+
+            height: 230px;
+
+            background: #e8f3ff;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 60px;
+        }
+
+        .product-content {
+            padding: 22px;
+        }
+
+        .product-content h2 {
+            margin-bottom: 10px;
+        }
+
+        .description {
+            color: #666;
+
+            line-height: 1.5;
+
+            margin-bottom: 15px;
+        }
+
+        .details {
+            margin-bottom: 18px;
+
+            line-height: 1.8;
+        }
+
+        .price {
+            color: #1677ff;
+
+            font-size: 22px;
+
+            font-weight: bold;
+        }
+
+        .buy-button {
+            display: block;
+
+            width: 100%;
+
+            padding: 13px;
+
+            border-radius: 10px;
+
+            background: #1677ff;
+
+            color: white;
+
+            text-align: center;
+
+            text-decoration: none;
+
+            border: none;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        .buy-button:hover {
+            background: #0869ed;
+        }
+
+        .empty {
+            text-align: center;
+
+            padding: 60px;
+
+            background: white;
+
+            border-radius: 18px;
+        }
+
+        @media(max-width:600px) {
+
+            .top-header {
+                padding: 0 20px;
+            }
+
+            .brand {
+                font-size: 25px;
+            }
+
+            .page {
+                padding: 35px 20px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<header class="top-header">
+
+    <div class="brand">
+        Borrow<span>Bay</span>
+    </div>
+
+    <a
+        href="{{ url_for('choose_role') }}"
+        class="back"
+    >
+        Back
+    </a>
+
+</header>
 
 
-    <div class="product-grid">
+<main class="page">
 
-        {% for product in products %}
+    <h1 class="title">
+        Available <span>Products</span>
+    </h1>
 
-        <div class="product-card">
+    <p class="subtitle">
+        Discover products shared by the BorrowBay community
+    </p>
 
-            {% if product.image %}
 
-            <img src="{{ url_for(
-                'static',
-                filename='../uploads/' + product.image
-            ) }}">
+    {% if products %}
 
-            {% else %}
+        <div class="products">
 
-            <div class="no-image">
-                No Image
-            </div>
+            {% for product in products %}
 
-            {% endif %}
+                <div class="product-card">
 
-            <h3>
-                {{ product.name }}
-            </h3>
+                    {% if product.image %}
 
-            <p>
-                ₹{{ "%.2f"|format(product.price) }}
-            </p>
+                        <img
+                            class="product-image"
+                            src="{{ url_for(
+                                'uploaded_file',
+                                filename=product.image
+                            ) }}"
+                            alt="{{ product.name }}"
+                        >
 
-            <p>
-                {{ product.condition }}
-            </p>
+                    {% else %}
 
-            <a
-                href="{{ url_for(
-                    'products.product_details',
-                    product_id=product.id
-                ) }}"
-                class="btn"
-            >
+                        <div class="no-image">
+                            📦
+                        </div>
 
-                View
+                    {% endif %}
 
-            </a>
+
+                    <div class="product-content">
+
+                        <h2>
+                            {{ product.name }}
+                        </h2>
+
+                        <p class="description">
+                            {{ product.description }}
+                        </p>
+
+                        <div class="details">
+
+                            <div>
+                                <strong>Category:</strong>
+                                {{ product.category }}
+                            </div>
+
+                            <div>
+                                <strong>Condition:</strong>
+                                {{ product.condition }}
+                            </div>
+
+                            <div>
+                                <strong>Seller:</strong>
+                                {{ product.seller.name }}
+                            </div>
+
+                            <div class="price">
+                                ₹{{ "%.2f"|format(product.price) }}
+                            </div>
+
+                        </div>
+
+
+                        <form
+                            method="POST"
+                            action="{{ url_for(
+                                'orders.buy_product',
+                                product_id=product.id
+                            ) }}"
+                        >
+
+                            <button
+                                type="submit"
+                                class="buy-button"
+                            >
+                                Buy Product
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
 
         </div>
 
-        {% else %}
+    {% else %}
 
-        <p>
-            No products found.
-        </p>
+        <div class="empty">
 
-        {% endfor %}
+            <h2>
+                No products available
+            </h2>
 
-    </div>
+            <p>
+                Sellers haven't added any products yet.
+            </p>
 
-</section>
+        </div>
 
-{% endblock %}
+    {% endif %}
+
+</main>
+
+</body>
+
+</html>

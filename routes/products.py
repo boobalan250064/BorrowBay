@@ -1,80 +1,159 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash
-from flask_login import login_required, current_user
-
-from models import db
-from models.product import Product
-from werkzeug.utils import secure_filename
-import os
-import os
-import uuid
-
 from flask import (
     Blueprint,
     render_template,
     request,
     redirect,
     url_for,
-    flash,
-    current_app
+    flash
 )
 
+from flask_login import login_required, current_user
 
-products = Blueprint(
-    "products",
-    __name__
-)
+from werkzeug.utils import secure_filename
+
+from models import db
+from models.product import Product
+
+import os
+import uuid
+
+
+products = Blueprint("products", __name__)
 
 
 ALLOWED_EXTENSIONS = {
     "png",
     "jpg",
     "jpeg",
+    "gif",
     "webp"
 }
 
 
 def allowed_file(filename):
-
     return (
         "." in filename
-        and
-        filename.rsplit(".", 1)[1].lower()
+        and filename.rsplit(".", 1)[1].lower()
         in ALLOWED_EXTENSIONS
     )
 
 
-@products.route("/products")
-def product_list():
+@products.route("/seller")
+@login_required
+def seller_page():
+    return render_template("add_product.html")
 
-    search = request.args.get(
-        "search",
-        ""
-    ).strip()
 
-    query = Product.query.filter_by(
-        status="available"
-    )
+@products.route("/add-product", methods=["GET", "POST"])
+@login_required
+def add_product():
 
-    if search:
+    if request.method == "POST":
 
-        query = query.filter(
-            Product.name.ilike(
-                f"%{search}%"
+        name = request.form["name"].strip()
+        description = request.form["description"].strip()
+        category = request.form["category"].strip()
+        price = request.form["price"]
+        condition = request.form["condition"].strip()
+
+        image = request.files.get("image")
+
+        filename = None
+
+        # IMAGE UPLOAD
+        if image and image.filename:
+
+            if not allowed_file(image.filename):
+                flash(
+                    "Only JPG, JPEG, PNG, GIF and WEBP images are allowed."
+                )
+                return redirect(
+                    url_for("products.add_product")
+                )
+
+            original_name = secure_filename(
+                image.filename
+            )
+
+            extension = original_name.rsplit(
+                ".",
+                1
+            )[1].lower()
+
+            filename = (
+                str(uuid.uuid4())
+                + "."
+                + extension
+            )
+
+            upload_folder = os.path.join(
+                os.path.dirname(
+                    os.path.dirname(
+                        os.path.abspath(__file__)
+                    )
+                ),
+                "uploads"
+            )
+
+            os.makedirs(
+                upload_folder,
+                exist_ok=True
+            )
+
+            image.save(
+                os.path.join(
+                    upload_folder,
+                    filename
+                )
+            )
+
+        product = Product(
+            name=name,
+            description=description,
+            category=category,
+            price=float(price),
+            condition=condition,
+            image=filename,
+            status="available",
+            seller_id=current_user.id
+        )
+
+        db.session.add(product)
+        db.session.commit()
+
+        flash(
+            "Product added successfully!"
+        )
+
+        return redirect(
+            url_for(
+                "products.browse_products"
             )
         )
 
-    all_products = query.order_by(
-        Product.created_at.desc()
+    return render_template(
+        "add_product.html"
+    )
+
+
+@products.route("/products")
+@login_required
+def browse_products():
+
+    product_list = Product.query.filter_by(
+        status="available"
+    ).order_by(
+        Product.id.desc()
     ).all()
 
     return render_template(
         "products.html",
-        products=all_products,
-        search=search
+        products=product_list
     )
 
 
 @products.route("/product/<int:product_id>")
+@login_required
 def product_details(product_id):
 
     product = Product.query.get_or_404(
@@ -87,239 +166,17 @@ def product_details(product_id):
     )
 
 
-@products.route("/add", methods=["GET", "POST"])
-@login_required
-def add_product():
-
-    if request.method == "POST":
-
-        name = request.form.get("name")
-
-        description = request.form.get(
-            "description"
-        )
-
-        category = request.form.get(
-            "category"
-        )
-
-        condition = request.form.get(
-            "condition"
-        )
-
-        price = request.form.get(
-            "price"
-        )
-
-        image_name = None
-
-        image = request.files.get(
-            "image"
-        )
-
-        if image and image.filename:
-
-            if allowed_file(
-                image.filename
-            ):
-
-                extension = image.filename.rsplit(
-                    ".",
-                    1
-                )[1].lower()
-
-                image_name = (
-                    str(uuid.uuid4())
-                    + "."
-                    + extension
-                )
-
-                filename = secure_filename(
-                    image_name
-                )
-
-                image.save(
-                    os.path.join(
-                        current_app.config[
-                            "UPLOAD_FOLDER"
-                        ],
-                        filename
-                    )
-                )
-
-        product = Product(
-
-            seller_id=current_user.id,
-
-            name=name,
-
-            description=description,
-
-            category=category,
-
-            condition=condition,
-
-            price=float(price),
-
-            image=image_name
-
-        )
-
-        db.session.add(product)
-
-        db.session.commit()
-
-        flash(
-            "Product listed successfully!",
-            "success"
-        )
-
-        return redirect(
-            url_for(
-                "products.my_listings"
-            )
-        )
-
-    return render_template(
-        "add_product.html"
-    )
-
-
-@products.route(
-    "/product/<int:product_id>/edit",
-    methods=["GET", "POST"]
-)
-@login_required
-def edit_product(product_id):
-
-    product = Product.query.get_or_404(
-        product_id
-    )
-
-    if product.seller_id != current_user.id:
-
-        flash(
-            "You cannot edit this product.",
-            "error"
-        )
-
-        return redirect(
-            url_for(
-                "products.product_list"
-            )
-        )
-
-    if request.method == "POST":
-
-        product.name = request.form.get(
-            "name"
-        )
-
-        product.description = request.form.get(
-            "description"
-        )
-
-        product.category = request.form.get(
-            "category"
-        )
-
-        product.condition = request.form.get(
-            "condition"
-        )
-
-        product.price = float(
-            request.form.get("price")
-        )
-
-        db.session.commit()
-
-        flash(
-            "Product updated successfully.",
-            "success"
-        )
-
-        return redirect(
-            url_for(
-                "products.my_listings"
-            )
-        )
-
-    return render_template(
-        "edit_product.html",
-        product=product
-    )
-
-
-@products.route(
-    "/product/<int:product_id>/delete",
-    methods=["POST"]
-)
-@login_required
-def delete_product(product_id):
-
-    product = Product.query.get_or_404(
-        product_id
-    )
-
-    if product.seller_id != current_user.id:
-
-        flash(
-            "You cannot delete this product.",
-            "error"
-        )
-
-        return redirect(
-            url_for(
-                "products.my_listings"
-            )
-        )
-
-    db.session.delete(product)
-
-    db.session.commit()
-
-    flash(
-        "Product deleted.",
-        "success"
-    )
-
-    return redirect(
-        url_for(
-            "products.my_listings"
-        )
-    )
-
-
 @products.route("/my-listings")
 @login_required
 def my_listings():
 
-    listings = Product.query.filter_by(
+    product_list = Product.query.filter_by(
         seller_id=current_user.id
     ).order_by(
-        Product.created_at.desc()
+        Product.id.desc()
     ).all()
 
     return render_template(
         "my_listings.html",
-        products=listings
-    )
-@products.route("/products")
-@login_required
-def browse_products():
-
-    product_list = Product.query.filter_by(
-        status="available"
-    ).order_by(
-        Product.created_at.desc()
-    ).all()
-
-    return render_template(
-        "products.html",
         products=product_list
     )
-@products.route("/seller")
-@login_required
-def seller_page():
-
-    return render_template("add_product.html")

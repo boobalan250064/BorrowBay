@@ -48,6 +48,11 @@ class Order(db.Model):
         server_default=db.func.now()
     )
 
+    product = db.relationship(
+        "Product",
+        backref="orders"
+    )
+
     buyer = db.relationship(
         "User",
         foreign_keys=[buyer_id]

@@ -10,12 +10,6 @@ class Product(db.Model):
         primary_key=True
     )
 
-    seller_id = db.Column(
-        db.Integer,
-        db.ForeignKey("users.id"),
-        nullable=False
-    )
-
     name = db.Column(
         db.String(150),
         nullable=False
@@ -36,13 +30,14 @@ class Product(db.Model):
         nullable=False
     )
 
-    image = db.Column(
-        db.String(255)
+    condition = db.Column(
+        db.String(100),
+        nullable=False
     )
 
-    condition = db.Column(
-        db.String(50),
-        default="Good"
+    image = db.Column(
+        db.String(255),
+        nullable=True
     )
 
     status = db.Column(
@@ -50,13 +45,18 @@ class Product(db.Model):
         default="available"
     )
 
+    seller_id = db.Column(
+        db.Integer,
+        db.ForeignKey("users.id"),
+        nullable=False
+    )
+
     created_at = db.Column(
         db.DateTime,
         server_default=db.func.now()
     )
 
-    orders = db.relationship(
-        "Order",
-        backref="product",
-        lazy=True
+    seller = db.relationship(
+        "User",
+        backref="products"
     )

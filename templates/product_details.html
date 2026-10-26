@@ -1,123 +1,351 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block title %}
-{{ product.name }} - BorrowBay
-{% endblock %}
+<head>
 
-{% block content %}
+    <meta charset="UTF-8">
 
-<div class="product-detail">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-    <div>
+    <title>{{ product.name }} - BorrowBay</title>
 
-        {% if product.image %}
+    <style>
 
-        <img
-            src="{{ url_for(
-                'static',
-                filename='../uploads/' + product.image
-            ) }}"
-            class="detail-image"
-        >
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-        {% else %}
+        body {
 
-        <div class="no-image large">
-            No Image
+            font-family: Arial, Helvetica, sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at 0% 0%,
+                    #dceeff 0,
+                    #dceeff 150px,
+                    transparent 151px
+                ),
+                #f5faff;
+
+            color: #142f63;
+        }
+
+        .header {
+
+            height: 90px;
+
+            background: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 75px;
+
+            box-shadow:
+                0 2px 10px rgba(0,0,0,0.04);
+        }
+
+        .brand {
+
+            font-size: 32px;
+
+            font-weight: bold;
+        }
+
+        .brand span {
+            color: #1677ff;
+        }
+
+        .back {
+
+            text-decoration: none;
+
+            color: #1677ff;
+
+            font-weight: bold;
+        }
+
+        .details-page {
+
+            max-width: 1100px;
+
+            margin: 60px auto;
+
+            padding: 0 20px;
+        }
+
+        .product-box {
+
+            background: white;
+
+            border-radius: 22px;
+
+            padding: 35px;
+
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 45px;
+
+            box-shadow:
+                0 15px 35px rgba(40,100,170,0.13);
+        }
+
+        .product-image {
+
+            width: 100%;
+
+            height: 450px;
+
+            object-fit: cover;
+
+            border-radius: 16px;
+
+            background: #e8f3ff;
+        }
+
+        .no-image {
+
+            width: 100%;
+
+            height: 450px;
+
+            border-radius: 16px;
+
+            background: #e8f3ff;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 100px;
+        }
+
+        .product-info {
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+        }
+
+        .product-info h1 {
+
+            font-size: 42px;
+
+            margin-bottom: 15px;
+        }
+
+        .description {
+
+            color: #666;
+
+            line-height: 1.7;
+
+            font-size: 17px;
+
+            margin-bottom: 20px;
+        }
+
+        .badge {
+
+            display: inline-block;
+
+            padding: 8px 14px;
+
+            background: #e8f3ff;
+
+            color: #1677ff;
+
+            border-radius: 20px;
+
+            font-weight: bold;
+
+            margin-right: 8px;
+
+            margin-bottom: 15px;
+        }
+
+        .price {
+
+            color: #1677ff;
+
+            font-size: 34px;
+
+            font-weight: bold;
+
+            margin: 15px 0;
+        }
+
+        .seller {
+
+            color: #666;
+
+            margin-bottom: 25px;
+        }
+
+        .buy-button {
+
+            display: block;
+
+            width: 100%;
+
+            padding: 16px;
+
+            background: #1677ff;
+
+            color: white;
+
+            text-decoration: none;
+
+            text-align: center;
+
+            border-radius: 12px;
+
+            font-size: 18px;
+
+            font-weight: bold;
+
+            box-shadow:
+                0 7px 15px rgba(22,119,255,0.25);
+        }
+
+        .buy-button:hover {
+            background: #0869ed;
+        }
+
+        @media(max-width:800px) {
+
+            .header {
+                padding: 0 20px;
+            }
+
+            .product-box {
+                grid-template-columns: 1fr;
+            }
+
+            .product-image,
+            .no-image {
+                height: 320px;
+            }
+
+            .product-info h1 {
+                font-size: 32px;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <header class="header">
+
+        <div class="brand">
+            Borrow<span>Bay</span>
         </div>
 
-        {% endif %}
+        <a href="{{ url_for('products.browse_products') }}"
+           class="back">
 
-    </div>
-
-
-    <div>
-
-        <h1>
-            {{ product.name }}
-        </h1>
-
-        <h2>
-            ₹{{ "%.2f"|format(product.price) }}
-        </h2>
-
-        <p>
-            {{ product.description }}
-        </p>
-
-        <p>
-            <strong>Category:</strong>
-            {{ product.category }}
-        </p>
-
-        <p>
-            <strong>Condition:</strong>
-            {{ product.condition }}
-        </p>
-
-        <p>
-            <strong>Seller:</strong>
-            {{ product.seller.name }}
-        </p>
-
-
-        {% if current_user.is_authenticated %}
-
-            {% if current_user.id != product.seller_id
-                  and product.status == "available" %}
-
-            <form
-                method="POST"
-                action="{{ url_for(
-                    'orders.buy_product',
-                    product_id=product.id
-                ) }}"
-            >
-
-                <select name="order_type">
-
-                    <option value="Buy">
-                        Buy
-                    </option>
-
-                    <option value="Borrow">
-                        Borrow
-                    </option>
-
-                </select>
-
-                <button class="btn"
-                        type="submit">
-
-                    Buy / Borrow
-
-                </button>
-
-            </form>
-
-            {% elif current_user.id == product.seller_id %}
-
-            <p>
-                This is your product.
-            </p>
-
-            {% endif %}
-
-        {% else %}
-
-        <a
-            href="{{ url_for('auth.login') }}"
-            class="btn"
-        >
-
-            Login to Buy
+            ← Products
 
         </a>
 
-        {% endif %}
+    </header>
 
-    </div>
 
-</div>
+    <main class="details-page">
 
-{% endblock %}
+        <div class="product-box">
+
+
+            {% if product.image %}
+
+                <img
+                    src="{{ url_for('uploaded_file', filename=product.image) }}"
+                    alt="{{ product.name }}"
+                    class="product-image">
+
+            {% else %}
+
+                <div class="no-image">
+                    📦
+                </div>
+
+            {% endif %}
+
+
+            <div class="product-info">
+
+                <h1>
+                    {{ product.name }}
+                </h1>
+
+                <p class="description">
+                    {{ product.description }}
+                </p>
+
+                <div>
+
+                    <span class="badge">
+                        {{ product.category }}
+                    </span>
+
+                    <span class="badge">
+                        {{ product.condition }}
+                    </span>
+
+                </div>
+
+                <div class="price">
+                    ₹{{ "%.2f"|format(product.price) }}
+                </div>
+
+                <p class="seller">
+                    Sold by:
+                    <strong>
+                        {{ product.seller.name }}
+                    </strong>
+                </p>
+
+
+                {% if product.seller_id != current_user.id %}
+
+                    <a
+                        href="{{ url_for('orders.buy_product', product_id=product.id) }}"
+                        class="buy-button">
+
+                        Buy Now
+
+                    </a>
+
+                {% else %}
+
+                    <p>
+                        This is your own product.
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>
