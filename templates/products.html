@@ -5,10 +5,8 @@
 
     <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>BorrowBay - Products</title>
 
@@ -22,7 +20,6 @@
 
         body {
             font-family: Arial, Helvetica, sans-serif;
-
             background:
                 radial-gradient(
                     circle at 0% 0%,
@@ -33,12 +30,16 @@
                 #f5faff;
 
             color: #142f63;
-
-            min-height: 100vh;
         }
 
-        .top-header {
-            height: 90px;
+
+        /* ==============================
+           NAVBAR
+        ============================== */
+
+        .navbar {
+
+            height: 85px;
 
             background: white;
 
@@ -48,156 +49,161 @@
 
             justify-content: space-between;
 
-            padding: 0 75px;
+            padding: 0 60px;
 
             box-shadow:
-                0 2px 10px
-                rgba(0,0,0,0.04);
+                0 3px 15px
+                rgba(0,0,0,0.06);
         }
 
-        .brand {
+
+        .logo {
+
             font-size: 32px;
 
             font-weight: bold;
+
+            color: #142f63;
         }
 
-        .brand span {
+
+        .logo span {
+
             color: #1677ff;
         }
 
-        .back {
-            color: #1677ff;
 
-            text-decoration: none;
-
-            font-weight: bold;
-        }
-
-        .page {
-            padding: 50px 7%;
-        }
-
-        .title {
-            text-align: center;
-
-            font-size: 42px;
-
-            margin-bottom: 10px;
-        }
-
-        .title span {
-            color: #1677ff;
-        }
-
-        .subtitle {
-            text-align: center;
-
-            color: #666;
-
-            margin-bottom: 40px;
-        }
-
-        .products {
-            display: grid;
-
-            grid-template-columns:
-                repeat(auto-fit, minmax(280px, 1fr));
-
-            gap: 30px;
-        }
-
-        .product-card {
-            background: white;
-
-            border-radius: 18px;
-
-            overflow: hidden;
-
-            box-shadow:
-                0 12px 30px
-                rgba(40,100,170,0.12);
-
-            transition: 0.25s;
-        }
-
-        .product-card:hover {
-            transform: translateY(-6px);
-        }
-
-        .product-image {
-            width: 100%;
-
-            height: 230px;
-
-            object-fit: cover;
-
-            background: #e8f3ff;
-        }
-
-        .no-image {
-            width: 100%;
-
-            height: 230px;
-
-            background: #e8f3ff;
+        .nav-links {
 
             display: flex;
 
             align-items: center;
 
-            justify-content: center;
-
-            font-size: 60px;
+            gap: 25px;
         }
 
-        .product-content {
-            padding: 22px;
-        }
 
-        .product-content h2 {
-            margin-bottom: 10px;
-        }
+        .nav-links a {
 
-        .description {
-            color: #666;
+            text-decoration: none;
 
-            line-height: 1.5;
-
-            margin-bottom: 15px;
-        }
-
-        .details {
-            margin-bottom: 18px;
-
-            line-height: 1.8;
-        }
-
-        .price {
-            color: #1677ff;
-
-            font-size: 22px;
+            color: #173b72;
 
             font-weight: bold;
         }
 
-        .buy-button {
-            display: block;
 
-            width: 100%;
+        .cart-button {
 
-            padding: 13px;
+            background: #1677ff;
+
+            color: white !important;
+
+            padding: 11px 18px;
 
             border-radius: 10px;
+        }
+
+
+        /* ==============================
+           PAGE
+        ============================== */
+
+        .page {
+
+            max-width: 1200px;
+
+            margin: auto;
+
+            padding: 50px 25px;
+        }
+
+
+        .title {
+
+            text-align: center;
+
+            font-size: 48px;
+
+            margin-bottom: 10px;
+        }
+
+
+        .title span {
+
+            color: #1677ff;
+        }
+
+
+        .subtitle {
+
+            text-align: center;
+
+            color: #666;
+
+            font-size: 17px;
+
+            margin-bottom: 35px;
+        }
+
+
+        /* ==============================
+           SEARCH
+        ============================== */
+
+        .search-box {
+
+            max-width: 750px;
+
+            margin: 0 auto 45px;
+
+            background: white;
+
+            padding: 12px;
+
+            border-radius: 15px;
+
+            display: flex;
+
+            gap: 10px;
+
+            box-shadow:
+                0 10px 25px
+                rgba(30,90,150,0.12);
+        }
+
+
+        .search-box input {
+
+            flex: 1;
+
+            height: 50px;
+
+            border: none;
+
+            outline: none;
+
+            padding: 0 18px;
+
+            font-size: 16px;
+
+            background: #f5faff;
+
+            border-radius: 10px;
+        }
+
+
+        .search-button {
+
+            border: none;
 
             background: #1677ff;
 
             color: white;
 
-            text-align: center;
+            padding: 0 25px;
 
-            text-decoration: none;
-
-            border: none;
+            border-radius: 10px;
 
             font-size: 16px;
 
@@ -206,32 +212,300 @@
             cursor: pointer;
         }
 
-        .buy-button:hover {
+
+        .search-button:hover {
+
             background: #0869ed;
         }
 
-        .empty {
-            text-align: center;
 
-            padding: 60px;
+        /* ==============================
+           PRODUCT GRID
+        ============================== */
+
+        .product-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(280px, 1fr)
+                );
+
+            gap: 28px;
+        }
+
+
+        .product-card {
 
             background: white;
 
-            border-radius: 18px;
+            border-radius: 20px;
+
+            padding: 18px;
+
+            box-shadow:
+                0 10px 25px
+                rgba(30,90,150,0.12);
+
+            transition: 0.3s ease;
+
+            overflow: hidden;
         }
 
-        @media(max-width:600px) {
 
-            .top-header {
+        .product-card:hover {
+
+            transform: translateY(-7px);
+
+            box-shadow:
+                0 18px 35px
+                rgba(30,90,150,0.18);
+        }
+
+
+        /* ==============================
+           PRODUCT IMAGE
+        ============================== */
+
+        .product-image {
+
+            width: 100%;
+
+            height: 220px;
+
+            object-fit: cover;
+
+            border-radius: 15px;
+
+            display: block;
+        }
+
+
+        .no-image {
+
+            width: 100%;
+
+            height: 220px;
+
+            border-radius: 15px;
+
+            background: #eaf4ff;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 65px;
+        }
+
+
+        /* ==============================
+           PRODUCT INFO
+        ============================== */
+
+        .category {
+
+            display: inline-block;
+
+            margin-top: 18px;
+
+            background: #e8f3ff;
+
+            color: #1677ff;
+
+            padding: 6px 12px;
+
+            border-radius: 20px;
+
+            font-size: 13px;
+
+            font-weight: bold;
+        }
+
+
+        .product-card h2 {
+
+            margin-top: 12px;
+
+            margin-bottom: 8px;
+
+            font-size: 23px;
+        }
+
+
+        .description {
+
+            color: #666;
+
+            line-height: 1.5;
+
+            min-height: 48px;
+        }
+
+
+        .price {
+
+            color: #1677ff;
+
+            font-size: 24px;
+
+            font-weight: bold;
+
+            margin-top: 15px;
+        }
+
+
+        .condition {
+
+            color: #555;
+
+            margin-top: 8px;
+
+            font-size: 14px;
+        }
+
+
+        /* ==============================
+           BUTTONS
+        ============================== */
+
+        .product-actions {
+
+            display: flex;
+
+            gap: 10px;
+
+            margin-top: 20px;
+        }
+
+
+        .buy-button,
+        .cart-add-button {
+
+            flex: 1;
+
+            text-align: center;
+
+            text-decoration: none;
+
+            padding: 13px 8px;
+
+            border-radius: 10px;
+
+            font-weight: bold;
+
+            font-size: 14px;
+        }
+
+
+        .buy-button {
+
+            background: #1677ff;
+
+            color: white;
+        }
+
+
+        .cart-add-button {
+
+            background: #e8f3ff;
+
+            color: #1677ff;
+        }
+
+
+        .buy-button:hover {
+
+            background: #0869ed;
+        }
+
+
+        .cart-add-button:hover {
+
+            background: #d7ebff;
+        }
+
+
+        /* ==============================
+           NO PRODUCTS
+        ============================== */
+
+        .no-products {
+
+            background: white;
+
+            padding: 50px;
+
+            text-align: center;
+
+            border-radius: 20px;
+
+            box-shadow:
+                0 10px 25px
+                rgba(30,90,150,0.10);
+        }
+
+
+        .no-products h2 {
+
+            margin-bottom: 10px;
+        }
+
+
+        .clear-search {
+
+            display: inline-block;
+
+            margin-top: 20px;
+
+            text-decoration: none;
+
+            background: #1677ff;
+
+            color: white;
+
+            padding: 12px 20px;
+
+            border-radius: 10px;
+
+            font-weight: bold;
+        }
+
+
+        @media(max-width:700px) {
+
+            .navbar {
+
                 padding: 0 20px;
             }
 
-            .brand {
+            .logo {
+
                 font-size: 25px;
             }
 
-            .page {
-                padding: 35px 20px;
+            .nav-links {
+
+                gap: 10px;
+            }
+
+            .title {
+
+                font-size: 38px;
+            }
+
+            .search-box {
+
+                flex-direction: column;
+            }
+
+            .search-button {
+
+                height: 48px;
             }
 
         }
@@ -240,139 +514,239 @@
 
 </head>
 
+
 <body>
 
-<header class="top-header">
 
-    <div class="brand">
-        Borrow<span>Bay</span>
-    </div>
+    <!-- ==============================
+         NAVBAR
+    ============================== -->
 
-    <a
-        href="{{ url_for('choose_role') }}"
-        class="back"
-    >
-        Back
-    </a>
+    <header class="navbar">
 
-</header>
+        <div class="logo">
+            Borrow<span>Bay</span>
+        </div>
 
 
-<main class="page">
+        <div class="nav-links">
 
-    <h1 class="title">
-        Available <span>Products</span>
-    </h1>
-
-    <p class="subtitle">
-        Discover products shared by the BorrowBay community
-    </p>
+            <a href="{{ url_for('dashboard.home') }}">
+                My Account
+            </a>
 
 
-    {% if products %}
+            <a
+                href="{{ url_for('orders.cart') }}"
+                class="cart-button"
+            >
+                🛒 Cart
+            </a>
 
-        <div class="products">
+        </div>
 
-            {% for product in products %}
-
-                <div class="product-card">
-
-                    {% if product.image %}
-
-                        <img
-                            class="product-image"
-                            src="{{ url_for(
-                                'uploaded_file',
-                                filename=product.image
-                            ) }}"
-                            alt="{{ product.name }}"
-                        >
-
-                    {% else %}
-
-                        <div class="no-image">
-                            📦
-                        </div>
-
-                    {% endif %}
+    </header>
 
 
-                    <div class="product-content">
+
+    <!-- ==============================
+         MAIN PAGE
+    ============================== -->
+
+    <main class="page">
+
+
+        <h1 class="title">
+            Explore <span>Products</span>
+        </h1>
+
+
+        <p class="subtitle">
+            Find products shared by people in the BorrowBay community.
+        </p>
+
+
+
+        <!-- ==============================
+             SEARCH BAR
+        ============================== -->
+
+        <form
+            method="GET"
+            action="{{ url_for('products.browse_products') }}"
+            class="search-box"
+        >
+
+            <input
+                type="text"
+                name="search"
+                value="{{ search or '' }}"
+                placeholder="🔍 Search for laptops, books, calculators..."
+            >
+
+
+            <button
+                type="submit"
+                class="search-button"
+            >
+                Search
+            </button>
+
+        </form>
+
+
+
+        <!-- ==============================
+             PRODUCTS
+        ============================== -->
+
+        {% if products %}
+
+            <div class="product-grid">
+
+                {% for product in products %}
+
+                    <div class="product-card">
+
+
+                        <!-- IMAGE -->
+
+                        {% if product.image %}
+
+                            <img
+                                src="{{ url_for(
+                                    'uploaded_file',
+                                    filename=product.image
+                                ) }}"
+                                alt="{{ product.name }}"
+                                class="product-image"
+                            >
+
+                        {% else %}
+
+                            <div class="no-image">
+                                📦
+                            </div>
+
+                        {% endif %}
+
+
+
+                        <!-- CATEGORY -->
+
+                        <span class="category">
+                            {{ product.category }}
+                        </span>
+
+
+
+                        <!-- NAME -->
 
                         <h2>
                             {{ product.name }}
                         </h2>
 
+
+
+                        <!-- DESCRIPTION -->
+
                         <p class="description">
                             {{ product.description }}
                         </p>
 
-                        <div class="details">
 
-                            <div>
-                                <strong>Category:</strong>
-                                {{ product.category }}
-                            </div>
 
-                            <div>
-                                <strong>Condition:</strong>
+                        <!-- PRICE -->
+
+                        <p class="price">
+                            ₹{{ product.price }}
+                        </p>
+
+
+
+                        <!-- CONDITION -->
+
+                        <p class="condition">
+                            Condition:
+                            <strong>
                                 {{ product.condition }}
-                            </div>
+                            </strong>
+                        </p>
 
-                            <div>
-                                <strong>Seller:</strong>
-                                {{ product.seller.name }}
-                            </div>
 
-                            <div class="price">
-                                ₹{{ "%.2f"|format(product.price) }}
-                            </div>
+
+                        <!-- ACTIONS -->
+
+                        <div class="product-actions">
+
+
+                            <a
+                                href="{{ url_for(
+                                    'orders.buy_product',
+                                    product_id=product.id
+                                ) }}"
+                                class="buy-button"
+                            >
+                                Buy / Borrow
+                            </a>
+
+
+                            <a
+                                href="{{ url_for(
+                                    'orders.add_to_cart',
+                                    product_id=product.id
+                                ) }}"
+                                class="cart-add-button"
+                            >
+                                🛒 Add Cart
+                            </a>
+
 
                         </div>
 
 
-                        <form
-                            method="POST"
-                            action="{{ url_for(
-                                'orders.buy_product',
-                                product_id=product.id
-                            ) }}"
-                        >
-
-                            <button
-                                type="submit"
-                                class="buy-button"
-                            >
-                                Buy Product
-                            </button>
-
-                        </form>
-
                     </div>
 
-                </div>
+                {% endfor %}
 
-            {% endfor %}
+            </div>
 
-        </div>
 
-    {% else %}
+        {% else %}
 
-        <div class="empty">
 
-            <h2>
-                No products available
-            </h2>
+            <div class="no-products">
 
-            <p>
-                Sellers haven't added any products yet.
-            </p>
+                <h2>
+                    😔 No products found
+                </h2>
 
-        </div>
+                <p>
+                    Try searching with another product name.
+                </p>
 
-    {% endif %}
 
-</main>
+                {% if search %}
+
+                    <a
+                        href="{{ url_for(
+                            'products.browse_products'
+                        ) }}"
+                        class="clear-search"
+                    >
+                        Show All Products
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+
+        {% endif %}
+
+
+    </main>
+
 
 </body>
 

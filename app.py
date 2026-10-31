@@ -1,20 +1,35 @@
-from flask import Flask, render_template, send_from_directory, redirect, url_for
-from flask_login import LoginManager, current_user, login_required
+from flask import Flask, render_template, send_from_directory
+from flask_login import LoginManager, login_required
 
 from models import db
 from models.user import User
 from models.product import Product
+from models.order import Order
+from models.cart import Cart
+from models.verification import PurchaseVerification
 
 from routes.auth import auth
 from routes.products import products
 from routes.orders import orders
 from routes.dashboard import dashboard
+
 from config import Config
 
 import os
 
 
-BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+# ==========================================
+# BASE DIRECTORY
+# ==========================================
+
+BASE_DIR = os.path.abspath(
+    os.path.dirname(__file__)
+)
+
+
+# ==========================================
+# CREATE FLASK APPLICATION
+# ==========================================
 
 app = Flask(__name__)
 
@@ -24,6 +39,19 @@ app = Flask(__name__)
 # ==========================================
 
 app.config.from_object(Config)
+
+
+# Upload folder
+app.config["UPLOAD_FOLDER"] = os.path.join(
+    BASE_DIR,
+    "uploads"
+)
+
+
+# Maximum upload size = 5 MB
+app.config["MAX_CONTENT_LENGTH"] = (
+    5 * 1024 * 1024
+)
 
 
 # ==========================================
@@ -43,6 +71,10 @@ login_manager.init_app(app)
 
 login_manager.login_view = "auth.login"
 
+
+# ==========================================
+# LOAD LOGGED-IN USER
+# ==========================================
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -73,10 +105,9 @@ app.register_blueprint(dashboard)
 @app.route("/")
 def index():
 
-    # If already logged in, go to Seller / Buyer page
-
-    # If not logged in, show BorrowBay home page
-    return render_template("index.html")
+    return render_template(
+        "index.html"
+    )
 
 
 # ==========================================
@@ -106,16 +137,18 @@ def uploaded_file(filename):
 
 
 # ==========================================
-# CREATE FOLDERS AND DATABASE
+# CREATE REQUIRED FOLDERS
 # ==========================================
 
 with app.app_context():
 
+    # Create uploads folder
     os.makedirs(
         app.config["UPLOAD_FOLDER"],
         exist_ok=True
     )
 
+    # Create database folder
     os.makedirs(
         os.path.join(
             BASE_DIR,
@@ -124,6 +157,7 @@ with app.app_context():
         exist_ok=True
     )
 
+    # Create database tables
     db.create_all()
 
 
@@ -133,4 +167,6 @@ with app.app_context():
 
 if __name__ == "__main__":
 
-    app.run(debug=True)
+    app.run(
+        debug=True
+    )
