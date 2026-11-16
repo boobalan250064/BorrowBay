@@ -13,9 +13,13 @@ from routes.products import products
 from routes.orders import orders
 from routes.dashboard import dashboard
 
-from config import Config
-
 import os
+
+from dotenv import load_dotenv
+
+load_dotenv()
+
+from config import Config
 
 
 # ==========================================
