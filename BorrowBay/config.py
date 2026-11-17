@@ -13,3 +13,5 @@ class Config:
     UPLOAD_FOLDER = os.path.join(BASE_DIR, "uploads")
 
     MAX_CONTENT_LENGTH = 5 * 1024 * 1024
+
+    PUBLIC_BASE_URL = os.environ.get("PUBLIC_BASE_URL")

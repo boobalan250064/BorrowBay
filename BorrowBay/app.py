@@ -12,7 +12,6 @@ from routes.auth import auth
 from routes.products import products
 from routes.orders import orders
 from routes.dashboard import dashboard
-
 import os
 
 from dotenv import load_dotenv
@@ -43,6 +42,19 @@ app = Flask(__name__)
 # ==========================================
 
 app.config.from_object(Config)
+# ==========================================
+# EMAIL CONFIGURATION
+# ==========================================
+
+app.config["MAIL_SERVER"] = os.environ.get("MAIL_SERVER")
+app.config["MAIL_PORT"] = int(os.environ.get("MAIL_PORT", 587))
+app.config["MAIL_USE_TLS"] = os.environ.get("MAIL_USE_TLS", "True") == "True"
+app.config["MAIL_USERNAME"] = os.environ.get("MAIL_USERNAME")
+app.config["MAIL_PASSWORD"] = os.environ.get("MAIL_PASSWORD")
+app.config["MAIL_DEFAULT_SENDER"] = os.environ.get("MAIL_USERNAME")
+
+from extensions import mail
+mail.init_app(app)
 
 
 # Upload folder
